@@ -1,0 +1,21 @@
+---
+applications:
+  - name: locomotive-dataingestion-service-asha
+    buildpack: java_buildpack
+    path: target/data-ingestion-0.0.1-SNAPSHOT.jar
+    services:
+      - asha-locomotive-asset
+      - asha-locomotive-timeseries
+      - asha-locomotive-uaa  
+env:
+    SPRING_PROFILES_ACTIVE : cloud,clouddev
+    predix_asset_name: asha-locomotive-asset
+    predix_timeseries_name: asha-locomotive-timeseries    
+    predix_oauthRestHost: 2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io    
+    predix_oauthClientId: asha-client:clientsecret
+    trustedIssuerIdsRegexPattern: ^https://(.*\\.)?2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token$
+    accessTokenEndpointUrl : https://2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token    
+    clientId : asha-client
+    clientSecret: clientsecret
+    #predixWebSocketURI: wss://websocket-server-new-release.run.aws-usw02-pr.ice.predix.io/livestream/messages
+    
