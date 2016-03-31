@@ -19,7 +19,7 @@ env:
     predix_oauthClientId: <yourclientName>:<yourclientsecret>
     #trustedIssuerIdsRegexPattern: ^https://(.*\\.)?2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token$
     trustedIssuerIdsRegexPattern: ^https://(.*\\.)?<yourUAAZoneID>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token$
-    accessTokenEndpointUrl : https://2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token 
+    #accessTokenEndpointUrl : https://2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token 
     accessTokenEndpointUrl : https://<yourUAAZoneID>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token    
     #clientId : asha-client
     clientId : <clientName>
