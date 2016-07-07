@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class WebSocketConfig implements EnvironmentAware
 {
     
+    
     @Value("${predixWebSocketURI}")
     String predixWebSocketURI;
     
@@ -36,6 +37,7 @@ public class WebSocketConfig implements EnvironmentAware
 		this.predixWebSocketURI = predixWebSocketURI;
 	}
 
+        //Pull info from config files regarding the websocket URI
 	@Override
 	public void setEnvironment(Environment env) {
 		this.predixWebSocketURI = env.getProperty("predixWebSocketURI");
