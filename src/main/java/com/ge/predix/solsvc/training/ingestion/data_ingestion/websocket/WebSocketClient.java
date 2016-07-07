@@ -38,6 +38,7 @@ public class WebSocketClient
     
     private Map<String,Session> sessions =  new HashMap<String,Session>();
     
+    //Post Data to the Websocket server
     public Response postToWebSocketServer(String data)
     {
     	final Response statusResponse = new Response();
