@@ -74,7 +74,7 @@ public class DataIngestionServiceController
             return "Request failed. " + e.getMessage();
         }
     }
-  
+  //Request Mapping being access by the Locomotive-simulator app
   @Override  
   @RequestMapping(value = "/SaveTimeSeriesData", method = RequestMethod.POST)
   public @ResponseBody String cargoTimeSeriesData(
