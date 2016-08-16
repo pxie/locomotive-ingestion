@@ -1,30 +1,19 @@
 ---
 applications:
-  - name: dss-locomotive-dataingestion-service
+  - name: <yourname>-locomotive-dataingestion-service
     buildpack: java_buildpack
     path: target/data-ingestion-0.0.1-SNAPSHOT.jar #make sure jar name matches artifactID and version
     services:
-     - dss-asset
-    #- <your_asset_name>
-     - dss-timeseries
-    #- <your_timeseries_name>
-     - dss-uaa  
-    #- <your_uaa_name>
+     - <your_asset_name>
+     - <your_timeseries_name>
+     - <your_uaa_name>
 env:
     SPRING_PROFILES_ACTIVE : clouddev
-    predix_oauthClientId: client:clientSecret
-    #predix_oauthClientId: <client:clientSecret>
-    predix_oauthRestHost: b4fa73da-7f3f-44bf-9ccb-620edc4b5045.predix-uaa.run.aws-usw02-pr.ice.predix.io
-    #predix_oauthRestHost: <uaa_zone_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io
-    trustedIssuerIdsRegexPattern: ^https://(.*\\.)?b4fa73da-7f3f-44bf-9ccb-620edc4b5045.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token$
-    #trustedIssuerIdsRegexPattern: ^https://(.*\\.)?<uaa_instance_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token$
-    accessTokenEndpointUrl: https://b4fa73da-7f3f-44bf-9ccb-620edc4b5045.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
-    #accessTokenEndpointUrl: https://<uaa_instancec_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
-    predix_asset_name: dss-asset
-    #predix_asset_name: <your_asset_name>
-    predix_timeseries_name: dss-timeseries   
-    #predix_timeseries_name: <your_timeseries_name>
-    clientId : client
-    #clientId : <your_client_id>
-    clientSecret: clientSecret
-    #clientSecret: <your_client_secret>
+    predix_oauthClientId: <client:clientSecret>
+    predix_oauthRestHost: <uaa_zone_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io
+    trustedIssuerIdsRegexPattern: ^https://(.*\\.)?<uaa_instance_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token$
+    accessTokenEndpointUrl: https://<uaa_instance_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
+    predix_asset_name: <your_asset_name>
+    predix_timeseries_name: <your_timeseries_name>
+    clientId : <your_client_id>
+    clientSecret: <your_client_secret>
