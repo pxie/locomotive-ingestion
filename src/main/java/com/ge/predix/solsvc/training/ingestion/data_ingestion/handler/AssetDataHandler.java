@@ -70,9 +70,7 @@ public class AssetDataHandler extends BaseFactoryIT
         	headers=this.restClient.getSecureTokenForClientId();
         	//headers.add(new BasicHeader("Predix-Zone-Id","ac3caa34-7874-44b1-b2a8-d06e09b85844"));
         	headers.add(new BasicHeader("Predix-Zone-Id","7c39f4b1-142c-45be-acf0-7d8dcc13fdfd"));
-          //  headers = this.restClient.getOauthHttpHeaders(this.restConfig.getOauthClientId(),
-          //          this.restConfig.getOauthClientIdEncode());
-            
+  
         }
         else
         {

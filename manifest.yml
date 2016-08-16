@@ -1,29 +1,30 @@
 ---
 applications:
-  - name: <yourname>-locomotive-dataingestion-service
+  - name: dss-locomotive-dataingestion-service
     buildpack: java_buildpack
     path: target/data-ingestion-0.0.1-SNAPSHOT.jar #make sure jar name matches artifactID and version
     services:
-      - <your Asset Instance Name>
-      - <your Time Series Instance Name>
-      - <your UAA instance Name>  
+     - dss-asset
+    #- <your_asset_name>
+     - dss-timeseries
+    #- <your_timeseries_name>
+     - dss-uaa  
+    #- <your_uaa_name>
 env:
-    SPRING_PROFILES_ACTIVE : cloud,clouddev
-    #predix_asset_name: asha-locomotive-asset
-    predix_asset_name: <your Asset Instance Name>
-    #predix_timeseries_name: asha-locomotive-timeseries 
-    predix_timeseries_name: <your Time Series Instance Name>   
-    #predix_oauthRestHost: 2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io
-    predix_oauthRestHost: <yourUAAzoneID>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io    
-    #predix_oauthClientId: asha-client:clientsecret
-    predix_oauthClientId: <yourclientName>:<yourclientsecret>
-    #trustedIssuerIdsRegexPattern: ^https://(.*\\.)?2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token$
-    trustedIssuerIdsRegexPattern: ^https://(.*\\.)?<yourUAAZoneID>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token$
-    #accessTokenEndpointUrl : https://2e93f1db-9f2c-43e9-9fa9-7ba816c8f01c.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token 
-    accessTokenEndpointUrl : https://<yourUAAZoneID>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token    
-    #clientId : asha-client
-    clientId : <clientName>
-    #clientSecret: clientsecret
-    clientSecret: <yourClientSecret>
-    #predixWebSocketURI: wss://websocket-server-new-release.run.aws-usw02-pr.ice.predix.io/livestream/messages
-    
+    SPRING_PROFILES_ACTIVE : clouddev
+    predix_oauthClientId: client:clientSecret
+    #predix_oauthClientId: <client:clientSecret>
+    predix_oauthRestHost: b4fa73da-7f3f-44bf-9ccb-620edc4b5045.predix-uaa.run.aws-usw02-pr.ice.predix.io
+    #predix_oauthRestHost: <uaa_zone_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io
+    trustedIssuerIdsRegexPattern: ^https://(.*\\.)?b4fa73da-7f3f-44bf-9ccb-620edc4b5045.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token$
+    #trustedIssuerIdsRegexPattern: ^https://(.*\\.)?<uaa_instance_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token$
+    accessTokenEndpointUrl: https://b4fa73da-7f3f-44bf-9ccb-620edc4b5045.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
+    #accessTokenEndpointUrl: https://<uaa_instancec_id>.predix-uaa.run.aws-usw02-pr.ice.predix.io/oauth/token
+    predix_asset_name: dss-asset
+    #predix_asset_name: <your_asset_name>
+    predix_timeseries_name: dss-timeseries   
+    #predix_timeseries_name: <your_timeseries_name>
+    clientId : client
+    #clientId : <your_client_id>
+    clientSecret: clientSecret
+    #clientSecret: <your_client_secret>

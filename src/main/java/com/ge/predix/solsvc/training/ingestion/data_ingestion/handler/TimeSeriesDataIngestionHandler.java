@@ -1,7 +1,12 @@
 package com.ge.predix.solsvc.training.ingestion.data_ingestion.handler;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
@@ -9,6 +14,7 @@ import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.UserRedirectRequiredException;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -24,6 +30,8 @@ import com.ge.predix.solsvc.training.ingestion.data_ingestion.type.LocomotiveGat
 import com.ge.predix.solsvc.training.ingestion.data_ingestion.websocket.WebSocketClient;
 import com.ge.predix.solsvc.training.ingestion.data_ingestion.websocket.WebSocketConfig;
 import com.google.gson.Gson;
+
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * 
@@ -65,13 +73,18 @@ public class TimeSeriesDataIngestionHandler extends BaseFactoryIT
         log.info(data);// Store Token Manually
         if (StringUtils.isEmpty(authorization)) {
         	log.info("Refreshing token locally =====================>>> > token should be coming from machine --> post MVP !!! :( !!!");
-        	//Get CLient ID and CLient Secret
+        	//Get CLient ID and CLient Secret THIS NEEDS TO BE CHANGED TO YAML
         	String[] oauthClient  = restConfig.getOauthClientId().split(":");
         	//Fetching Token 
-        	authorization = "Bearer "+getRestTemplate(oauthClient[0],oauthClient[1]).getAccessToken().getValue();
+        	try {
+				authorization = "Bearer "+getRestTemplate(oauthClient[0],oauthClient[1]).getAccessToken().getValue();
+			} catch (UserRedirectRequiredException | FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	//authorization = "Bearer "+"eyJhbGciOiJSUzI1NiJ9.eyJqdGkiOiJiOTljNGFmMS05MDkxLTRjNDItYTJjNS00NWIxOTg5YmRmYmQiLCJzdWIiOiJiZXRhIiwic2NvcGUiOlsiY2xpZW50cy5yZWFkIiwidGltZXNlcmllcy56b25lcy4wNzU4NDFjYi1kN2ZhLTQ4OTAtODRlYS1mZGQ3ZDdjNjViNjUuaW5nZXN0IiwiY2xpZW50cy5zZWNyZXQiLCJ1YWEucmVzb3VyY2UiLCJjbGllbnRzLmFkbWluIiwidGltZXNlcmllcy56b25lcy4wNzU4NDFjYi1kN2ZhLTQ4OTAtODRlYS1mZGQ3ZDdjNjViNjUudXNlciIsInRpbWVzZXJpZXMuem9uZXMuOTU5OWIyNTEtODYwNy00Y2Y2LTk5ZWYtZTI1Y2JlNTEyY2JjLnVzZXIiLCJzY2ltLnJlYWQiLCJwcmVkaXgtYXNzZXQuem9uZXMuN2MzOWY0YjEtMTQyYy00NWJlLWFjZjAtN2Q4ZGNjMTNmZGZkLnVzZXIiLCJ1YWEudXNlciIsInRpbWVzZXJpZXMuem9uZXMuOTU5OWIyNTEtODYwNy00Y2Y2LTk5ZWYtZTI1Y2JlNTEyY2JjLnF1ZXJ5IiwidGltZXNlcmllcy56b25lcy4wNzU4NDFjYi1kN2ZhLTQ4OTAtODRlYS1mZGQ3ZDdjNjViNjUucXVlcnkiLCJjbGllbnRzLndyaXRlIiwidGltZXNlcmllcy56b25lcy45NTk5YjI1MS04NjA3LTRjZjYtOTllZi1lMjVjYmU1MTJjYmMuaW5nZXN0Iiwiem9uZXMuYWU4YWM0ZmItZjhiZC00OThmLThkZDAtNTI5NDYzMjVkZGZjLmFkbWluIiwiaWRwcy5yZWFkIiwic2NpbS53cml0ZSJdLCJjbGllbnRfaWQiOiJiZXRhIiwiY2lkIjoiYmV0YSIsImF6cCI6ImJldGEiLCJncmFudF90eXBlIjoiY2xpZW50X2NyZWRlbnRpYWxzIiwicmV2X3NpZyI6ImQ1Y2M1YjUxIiwiaWF0IjoxNDU0MTAwMzkzLCJleHAiOjE0NTQxNDM1OTMsImlzcyI6Imh0dHBzOi8vYWVmMDBkYzktYzE4Ny00YmEyLWFiODAtYTg4M2M5NGRlYzMzLnByZWRpeC11YWEucnVuLmF3cy11c3cwMi1wci5pY2UucHJlZGl4LmlvL29hdXRoL3Rva2VuIiwiemlkIjoiYWVmMDBkYzktYzE4Ny00YmEyLWFiODAtYTg4M2M5NGRlYzMzIiwiYXVkIjpbImJldGEiLCJjbGllbnRzIiwidGltZXNlcmllcy56b25lcy4wNzU4NDFjYi1kN2ZhLTQ4OTAtODRlYS1mZGQ3ZDdjNjViNjUiLCJ1YWEiLCJ0aW1lc2VyaWVzLnpvbmVzLjk1OTliMjUxLTg2MDctNGNmNi05OWVmLWUyNWNiZTUxMmNiYyIsInNjaW0iLCJwcmVkaXgtYXNzZXQuem9uZXMuN2MzOWY0YjEtMTQyYy00NWJlLWFjZjAtN2Q4ZGNjMTNmZGZkIiwiem9uZXMuYWU4YWM0ZmItZjhiZC00OThmLThkZDAtNTI5NDYzMjVkZGZjIiwiaWRwcyJdfQ.pXfpXkKCNUvj78-XLgzLdqGJg0u3s-NRsS2gZaMp5Bd-u_MzZA4lrq-IvHbYtbtYJOtBkrdTQZrkY8y7ozAtGBGmWbPvjPS6z-70fDl7aBv8X2mMPQuxAI_Q3PH09FtxzFZmtc4TDhX5ObuO5ddP8_KX-e5vy63YQq-PVgVY8psPPwYKsUZDD0k9s43AWGfEGm1g1yYD-Z7OS56LhjPC5k6CsZP2zs6ZbiFU3p5OiEOp-Ht_YLn2nO8-98H4Rdx4dKfuBOJ9nAQraxVSbZb6HsTSkaHw25Zp71oFWQ5zzd4Ck5JV5K7pxzFOoxG7wM8CZTpbPkuJGU-88xS-Piq0Bg";
-        	log.info(oauthClient[0]);
-        	log.info(oauthClient[1]);
+        	/*log.info(oauthClient[0]);
+        	/log.info(oauthClient[1]);*/
         	log.info(authorization);
         	log.info("End of data set =====================>>> >");
         }
@@ -99,8 +112,6 @@ public class TimeSeriesDataIngestionHandler extends BaseFactoryIT
 		    
 
             
-            
-          
         }
        finally{
     	   
@@ -250,11 +261,11 @@ public class TimeSeriesDataIngestionHandler extends BaseFactoryIT
         return ret;
     }
     @SuppressWarnings("nls")
-    private OAuth2RestTemplate getRestTemplate(String clientId, String clientSecret)
+    private OAuth2RestTemplate getRestTemplate(String clientId, String clientSecret) throws FileNotFoundException
     {
         // get token here based on username password;
        // ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
-       
+	    		
        //Getting token as Client Credentials Grant Type
         ClientCredentialsResourceDetails clientDetails = new ClientCredentialsResourceDetails();
         clientDetails.setClientId(clientId);
