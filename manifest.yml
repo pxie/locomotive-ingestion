@@ -10,7 +10,7 @@ applications:
 env:
     SPRING_PROFILES_ACTIVE : clouddev
     predix_oauthClientId: <client:clientSecret>
-    predix_oauthRestHost: <uaa_zone_id>.predix-uaa.run-training.aws-usw02-pr.ice.predix.io
+    predix_oauthRestHost: <uaa_zone_id>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io
     trustedIssuerIdsRegexPattern: ^https://(.*\\.)?<uaa_instance_id>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token$
     accessTokenEndpointUrl: https://<uaa_instance_id>.predix-uaa-training.run.aws-usw02-pr.ice.predix.io/oauth/token
     predix_asset_name: <your_asset_name>
