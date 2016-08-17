@@ -1,0 +1,1 @@
+uaac client update <your client> --authorites "<paste existing authorities> timeseries.zones.<paste_your_timeseries_zoneId>.user timeseries.zones.<paste_your_timeseries_zoneId>.ingest timeseries.zones.<paste_your_timeseries_zoneId>.query"
