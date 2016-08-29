@@ -164,7 +164,7 @@ public class TimeSeriesDataIngestionHandler extends BaseFactoryIT
     	InjectionMetricBuilder builder = InjectionMetricBuilder.getInstance();
         InjectionMetric metric = new InjectionMetric(rpm_Message_number);
         InjectionBody body = new InjectionBody( data.getRpmData().getName()); // this should come from asset services once We are able to integrate the same
-        body.addAttributes("RPM DATA", "rpm");// attribute should pulled from Asset Store
+        body.addAttributes("RPM_DATA", "rpm");// attribute should pulled from Asset Store
         Double convertedValue =  data.getRpmData().getRpm();
         body.addDataPoint(converLocalTimeToUtcTime(data.getCurrentTime()),convertedValue);
         metric.getBody().add(body);
